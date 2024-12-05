@@ -1,0 +1,82 @@
+﻿<Window x:Class="StockManager.View.SearchWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:StockManager.View"
+        xmlns:vm="clr-namespace:StockManager.ViewModel"
+        xmlns:converter="clr-namespace:StockManager.ViewModel.ValueConverters"
+        mc:Ignorable="d"
+        Title="종목검색" Height="600" Width="400">
+    <Window.Resources>
+        <vm:StockVM x:Key="vm"/>
+        <converter:ColorChangeConverter x:Key="colorChange"/>
+    </Window.Resources>
+    
+    <Grid DataContext="{StaticResource vm}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Margin="20">
+            <TextBlock Text="관심종목검색:"/>
+            <TextBox Text="{Binding Query, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button Margin="0,10" 
+                    Command="{Binding SearchCommand}"
+                    CommandParameter="{Binding Query}"
+                    Content="검색"/>
+            <ListView ItemsSource="{Binding Tickers}"
+                      SelectedValue="{Binding SelectedTicker}"
+                      VerticalContentAlignment="Top"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible"
+                      ScrollViewer.CanContentScroll="True"
+                      Height="300">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding name}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+        <Grid Grid.Row="1"
+              DataContext="{StaticResource vm}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Margin="5">
+                <TextBlock Text="관심종목:" Margin="0,10"/>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding StockPrice.body.companyName}"                   
+                                FontSize="14" Grid.Row="0" Grid.ColumnSpan="3"/>
+                    <TextBlock Text="{Binding StockPrice.body.primaryData.lastSalePrice}"                   
+                                FontSize="14" Grid.Row="1" Grid.Column="0"/>
+                    <TextBlock Text="{Binding StockPrice.body.primaryData.netChange}"
+                               Foreground="{Binding StockPrice.body.primaryData.netChange,Converter={StaticResource colorChange}}"                   
+                               FontSize="14" Grid.Row="1" Grid.Column="1"/>
+                    <TextBlock Text="{Binding StockPrice.body.primaryData.percentageChange}"
+                               Foreground="{Binding StockPrice.body.primaryData.percentageChange,Converter={StaticResource colorChange}}"                   
+                               FontSize="14" Grid.Row="1" Grid.Column="2"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
