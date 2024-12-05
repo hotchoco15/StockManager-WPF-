@@ -16,9 +16,9 @@ namespace StockManager.ViewModel.Helpers
 		public const string BASE_URL = "https://yahoo-finance15.p.rapidapi.com/";
 		public const string ENDPOINT_FOR_STOCKPRICE = "api/v1/markets/quote?ticker={0}&type=STOCKS";
 		public const string ENDPOINT_FOR_HISTORY = "api/v1/markets/stock/history?symbol={0}&interval=1d&diffandsplits=false";
-		public const string API_KEY = "";
+		public const string API_KEY = "YOUR_API_KEY_HERE";
 		public const string API_HOST = "yahoo-finance15.p.rapidapi.com";
-		public const string BASE_URL_FOR_TICKER = "";
+		public const string BASE_URL_FOR_TICKER = "BASE_URL_FOR_TICKER";
 		public const string ENDPOINT_FOR_TICKER = "keyword/{0}";
 
 
